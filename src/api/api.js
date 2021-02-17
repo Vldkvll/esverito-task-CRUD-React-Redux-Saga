@@ -11,8 +11,6 @@ const instance = axios.create({
 export const getCarsApi = () => {
     return instance.get(`api/car/`)
         .then(function (response) {
-            // console.log('response.data.cars')
-            // console.log(response.data.cars)
             return response.data.cars
         })
 }
@@ -28,15 +26,5 @@ export const deleteCarApi = (id) => {
 }
 
 export const updateCarApi = (car) => {
-    return instance.put(`/car/${car.id}`)
+    return instance.put(`/car/${car.id}`, car)
 }
-
-// export const getFilterCarsApi = (data) => {
-//     return instance.get(`/car/`,
-//         {
-//             params: data
-//         })
-//         .then(function (response) {
-//             return response.data
-//         })
-// };

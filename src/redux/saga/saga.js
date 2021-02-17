@@ -4,7 +4,6 @@ import {
     getCarsApi,
     deleteCarApi,
     updateCarApi,
-    getFilterCarsApi,
 } from "../../api/api";
 import { actionCreators } from "../actions/actionCreators";
 import {
@@ -12,8 +11,6 @@ import {
     CREATE_CAR_FAILURE,
     DELETE_CAR,
     DELETE_CAR_FAILURE,
-    FETCH_FILTER,
-    FETCH_FILTER_CARS_FAILURE,
     FETCH_CARS,
     FETCH_CARS_FAILURE,
     UPDATE_CAR,

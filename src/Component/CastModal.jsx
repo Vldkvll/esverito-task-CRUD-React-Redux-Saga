@@ -43,16 +43,22 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function CastModal({ open, handleChangeModal }) {
+export default function CastModal({
+    openAdd,
+    handleChangeModalAdd,
+    openPut,
+    handleChangeModalPut,
+    car,
+}) {
     const classes = useStyles();
 
     const [modalStyle] = useState(getModalStyle);
     const dispatch = useDispatch();
-    const [changeBrand, setChangeBrand] = useState("");
-    const [changeModel, setChangeModel] = useState("");
-    const [changeCarNumber, setChangeCarNumber] = useState("");
-    const [changeEngineType, setChangeEngineType] = useState("");
-
+    const [changeBrand, setChangeBrand] = useState(car ? car.brand : '');
+    const [changeModel, setChangeModel] = useState(car ? car.model : "");
+    const [changeCarNumber, setChangeCarNumber] = useState(car ? car.carNumber : "");
+    const [changeEngineType, setChangeEngineType] = useState(car ? car.engineType : "");
+    
     const handleChangeBrand = (e) => {
         setChangeBrand(e);
     };
@@ -72,29 +78,40 @@ export default function CastModal({ open, handleChangeModal }) {
             brand: changeBrand,
             carNumber: changeCarNumber,
             engineType: changeEngineType,
-            id: v1(),
-            model: changeModel
+            id: !car ? v1() : car.id,
+            model: changeModel,
         };
-        console.log(newCar)
 
-            dispatch(actionCreators.createCar(newCar));
-        
-        
+        openPut
+            ? dispatch(actionCreators.updateCar(newCar))
+            : dispatch(actionCreators.createCar(newCar));
+
         setChangeBrand("");
         setChangeModel("");
         setChangeCarNumber("");
-        setChangeEngineType('');
-        handleChangeModal()
+        setChangeEngineType("");
+
+        openPut ? handleChangeModalPut() : handleChangeModalAdd();
     };
-    
- 
-    
+
     const body = (
         <div style={modalStyle} className={classes.paper}>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <h3 style={{ textTransform: "uppercase" }}>ADD A NEW CAR</h3>
+                {openPut ? (
+                    <h3 style={{ textTransform: "uppercase" }}>
+                        EDIT CAR INFORMATION
+                    </h3>
+                ) : (
+                    <h3 style={{ textTransform: "uppercase" }}>
+                        ADD A NEW CAR
+                    </h3>
+                )}
                 <div style={{ marginTop: "15px" }}>
-                    <CloseIcon onClick={handleChangeModal} />
+                    {openPut ? (
+                        <CloseIcon onClick={handleChangeModalPut} />
+                    ) : (
+                        <CloseIcon onClick={handleChangeModalAdd} />
+                    )}
                 </div>
             </div>
             <form
@@ -105,8 +122,8 @@ export default function CastModal({ open, handleChangeModal }) {
             >
                 <TextField
                     name="brand"
-                    label="Brand"
                     variant="filled"
+                    label={"Brand"}
                     value={changeBrand}
                     onChange={(e) => handleChangeBrand(e.currentTarget.value)}
                     style={{ flexBasis: "45%" }}
@@ -115,7 +132,7 @@ export default function CastModal({ open, handleChangeModal }) {
                 <br />
                 <TextField
                     name="model"
-                    label="Model"
+                    label={"Model"}
                     variant="filled"
                     value={changeModel}
                     onChange={(e) => handleChangeModel(e.currentTarget.value)}
@@ -124,7 +141,7 @@ export default function CastModal({ open, handleChangeModal }) {
                 <br />
                 <TextField
                     name="carNumber"
-                    label="Car Number"
+                    label={"Car Number"}
                     variant="filled"
                     value={changeCarNumber}
                     className={clsx(classes.margin, classes.textField)}
@@ -135,7 +152,7 @@ export default function CastModal({ open, handleChangeModal }) {
                 <br />
                 <TextField
                     name="engineType"
-                    label="Engine Type"
+                    label={"Engine Type"}
                     variant="filled"
                     value={changeEngineType}
                     onChange={(e) =>
@@ -146,31 +163,57 @@ export default function CastModal({ open, handleChangeModal }) {
                 <br />
                 <br />
             </form>
-            <div align="right">
-                <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={handleChangeModal}
-                >
-                    CANCEL
-                </Button>
-                &nbsp;&nbsp;&nbsp;
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleSubmit}
-                >
-                    OK
-                </Button>
-            </div>
+            {openPut ? (
+                <div align="right">
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={handleChangeModalPut}
+                    >
+                        CANCEL
+                    </Button>
+                    &nbsp;&nbsp;&nbsp;
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleSubmit}
+                    >
+                        SAVE
+                    </Button>
+                </div>
+            ) : (
+                <div align="right">
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={handleChangeModalAdd}
+                    >
+                        CANCEL
+                    </Button>
+                    &nbsp;&nbsp;&nbsp;
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleSubmit}
+                    >
+                        OK
+                    </Button>
+                </div>
+            )}
         </div>
     );
 
     return (
         <div>
             <Modal
-                open={open}
-                // onClose={handleChangeModal}
+                open={ openAdd ? openAdd : false }
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+            >
+                {body}
+            </Modal>
+            <Modal
+                open={ openPut ? openPut : false }
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
             >

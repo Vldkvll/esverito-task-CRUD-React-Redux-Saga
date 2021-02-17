@@ -1,7 +1,7 @@
 import {
     CREATE_CAR_FAILURE,
     CREATE_CAR_SUCCESS, DELETE_CAR_FAILURE,
-    DELETE_CAR_SUCCESS, FETCH_FILTER_CARS_SUCCESS,
+    DELETE_CAR_SUCCESS,
     FETCH_CARS_FAILURE,
     FETCH_CARS_SUCCESS, UPDATE_CAR_FAILURE,
     UPDATE_CAR_SUCCESS
@@ -27,8 +27,6 @@ function carReducer (state = initialState, action) {
                 cars: [...state.cars, ...action.payload],
             }
             case FETCH_CARS_FAILURE:
-                console.log(":-----------------------------::::::::::::::::")
-                console.log(action.payload)
                 return {
                     ...state,
                     cars: [...state.cars],
@@ -48,9 +46,6 @@ function carReducer (state = initialState, action) {
                     }
                     case UPDATE_CAR_SUCCESS: {
                         const {id, ...rest} = action.payload
-                        console.log(":::::::::::::::::")
-                        const atry = action.payload
-                        console.log(atry)
                         return {
                             ...state,
                 cars: state.cars.map(car => {
@@ -61,12 +56,6 @@ function carReducer (state = initialState, action) {
                 }),
             }
         }
-
-        // case FETCH_FILTER_CARS_SUCCESS:
-        //     return {
-        //         ...state,
-        //         cars: [...action.payload],
-        //     }
 
         case CREATE_CAR_FAILURE:
         case DELETE_CAR_FAILURE:
