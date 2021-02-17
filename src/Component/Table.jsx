@@ -75,6 +75,9 @@ const useStyles = makeStyles({
     inputMaterial: {
         width: "100%",
     },
+    tableHead: {
+        fontWeight:'700'
+    }
 });
 
 export default function TableForm() {
@@ -143,13 +146,14 @@ export default function TableForm() {
             <Paper className={classes.root}>
                 <TableContainer className={classes.container}>
                     <Table stickyHeader aria-label="sticky table">
-                        <TableHead>
+                        <TableHead  >
                             <TableRow>
                                 {columns.map((column) => (
                                     <TableCell
                                         key={column.id}
                                         align={column.align}
                                         style={{ minWidth: column.minWidth }}
+                                        className={classes.tableHead}
                                     >
                                         {column.label}
                                     </TableCell>

@@ -108,9 +108,13 @@ export default function CastModal({
                 )}
                 <div style={{ marginTop: "15px" }}>
                     {openPut ? (
-                        <CloseIcon onClick={handleChangeModalPut} />
+                        <Button >
+                            <CloseIcon onClick={handleChangeModalPut} />
+                        </Button>
                     ) : (
-                        <CloseIcon onClick={handleChangeModalAdd} />
+                        <Button>
+                            <CloseIcon onClick={handleChangeModalAdd} />
+                        </Button>
                     )}
                 </div>
             </div>

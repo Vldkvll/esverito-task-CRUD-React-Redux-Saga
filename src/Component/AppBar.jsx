@@ -5,7 +5,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import logo from '../assets/VectorSvgLogo.svg'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+
 }));
 
 export default function ButtonAppBar() {
@@ -28,12 +30,16 @@ export default function ButtonAppBar() {
       <AppBar position="static" color='transparent'>
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
+          <img src={logo} alt="logo" style={{marginBottom:'16px', paddingRight:'8px'}} />
+          <Typography variant="h5" className={classes.title}>
             Logo
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Typography color="inherit">Username</Typography>
+          <div style={{paddingRight:'80px'}}></div>
+          <Button color="inherit">
+            <ExitToAppIcon />
+          </Button>
         </Toolbar>
       </AppBar>
     </div>
