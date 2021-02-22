@@ -54,9 +54,6 @@ export default function CastModal({
 }) {
     const classes = useStyles();
 
-    console.log("car")
-    console.log(car)
-
     const [modalStyle] = useState(getModalStyle);
     const dispatch = useDispatch();
     const [changeBrand, setChangeBrand] = useState(car ? car.brand : "");
@@ -101,13 +98,12 @@ export default function CastModal({
             id: !car ? v1() : car.id,
             model: changeModel,
         };
-        // console.log(newCar)
 
         if (!checkCar(newCar) && !checkEngine(newCar.engineType))
             return allertMessage("Please fill in all fields");
 
         openPut
-            ? dispatch(actionCreators.updateCar(newCar))
+            ? dispatch(actionCreators.updateCarSaga(newCar))
             : dispatch(actionCreators.createCarSaga(newCar));
 
         setChangeBrand("");

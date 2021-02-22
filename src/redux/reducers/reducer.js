@@ -11,21 +11,13 @@ import {
 
 let initialState = {
     cars: [
-        // {
-        //     "brand": "string",
-        //     "carNumber": "string",
-        //     "engineType": "FUEL",
-        //     "id": 0,
-        //     "model": "string"
-        //   },
+
     ],
 };
 
 function carReducer(state = initialState, action) {
     switch (action.type) {
         case FETCH_CARS_SUCCESS: {
-            // console.log("FETCH_CARS_SUCCESS action.payload");
-            // console.log(action.payload);
             return {
                 ...state,
                 cars: [...state.cars, ...action.payload],
@@ -37,10 +29,6 @@ function carReducer(state = initialState, action) {
                 cars: [...state.cars],
             };
         case DELETE_CAR_SUCCESS: {
-            // console.log("DELETE_CAR_SUCCESS action.payload");
-            // console.log(action.payload);
-
-
             const car_id = action.payload;
             return {
                 ...state,

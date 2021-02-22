@@ -20,8 +20,6 @@ import {
 export function* fetchCar() {
     try {
         const data = yield call(getCarsApi);
-        // console.log("fetchCarfetchCarfetchCarfetchCarfetchCarfetchCarfetchCar");
-        // console.log(data);
         yield put(actionCreators.retriveCars(data));
     } catch (error) {
         yield put({ type: FETCH_CARS_FAILURE });
@@ -49,8 +47,8 @@ export function* watchCreateCar() {
 
 export function* updateCar(action) {
     try {
-        const data = yield call(updateCarApi, action.payload);
-        yield put(actionCreators.updateCar(data));
+        yield call(updateCarApi, action.payload);
+        yield put(actionCreators.updateCar(action.payload));
         yield call(fetchCar);
     } catch (error) {
         yield put({ type: UPDATE_CAR_FAILURE });
@@ -63,17 +61,11 @@ export function* watchUpdateCar() {
 }
 
 export function* deleteCar(action) {
-    // console.log(":1:::2:::3:::4:::5:::6:");
-    // console.log(action.payload);
     try {
         yield call(deleteCarApi, action.payload);
         yield put(actionCreators.deleteCar(action.payload));
         yield call(fetchCar);
     } catch (error) {
-        
-        // console.log(":_______________________________:");
-        // console.log(error);
-        // console.log(action);
         yield put({ type: DELETE_CAR_FAILURE });
         console.error(error);
     }

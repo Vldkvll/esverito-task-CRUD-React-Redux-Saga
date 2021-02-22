@@ -5,7 +5,8 @@ import {
     UPDATE_CAR_SUCCESS,
     FETCH_CARS,
     DELETE_CAR,
-    CREATE_CAR
+    CREATE_CAR,
+    UPDATE_CAR,
 } from "./types";
 
 export const actionCreators = {
@@ -18,21 +19,18 @@ export const actionCreators = {
     },
 
     retriveCars(data) {
-        // debugger
         return {
             type: FETCH_CARS_SUCCESS,
             payload: data,
         }
     },
     deleteCarSaga(data) {
-        // debugger
         return {
             type: DELETE_CAR,
             payload: data,
         }
     },
     deleteCar(data) {
-        // debugger
         return {
             type: DELETE_CAR_SUCCESS,
             payload: data,
@@ -47,6 +45,12 @@ export const actionCreators = {
     createCar(data) {
         return {
             type: CREATE_CAR_SUCCESS,
+            payload: data,
+        }
+    },
+    updateCarSaga(data) {
+        return {
+            type: UPDATE_CAR,
             payload: data,
         }
     },
