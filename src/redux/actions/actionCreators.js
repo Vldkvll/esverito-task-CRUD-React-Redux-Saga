@@ -3,7 +3,9 @@ import {
     DELETE_CAR_SUCCESS,
     FETCH_CARS_SUCCESS,
     UPDATE_CAR_SUCCESS,
-    FETCH_CARS
+    FETCH_CARS,
+    DELETE_CAR,
+    CREATE_CAR
 } from "./types";
 
 export const actionCreators = {
@@ -22,9 +24,23 @@ export const actionCreators = {
             payload: data,
         }
     },
+    deleteCarSaga(data) {
+        // debugger
+        return {
+            type: DELETE_CAR,
+            payload: data,
+        }
+    },
     deleteCar(data) {
+        // debugger
         return {
             type: DELETE_CAR_SUCCESS,
+            payload: data,
+        }
+    },
+    createCarSaga(data) {
+        return {
+            type: CREATE_CAR,
             payload: data,
         }
     },

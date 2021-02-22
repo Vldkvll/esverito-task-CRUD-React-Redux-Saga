@@ -15,6 +15,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { red } from "@material-ui/core/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators } from "../redux/actions/actionCreators";
+import { v1 } from "uuid";
 
 import CastModal from "../Component/CastModal";
 
@@ -43,7 +44,6 @@ const columns = [
         label: "Engine Type",
         minWidth: 100,
         align: "left",
-
     },
     {
         id: "model",
@@ -58,8 +58,6 @@ const columns = [
         align: "right",
     },
 ];
-
-
 
 const useStyles = makeStyles({
     root: {
@@ -76,8 +74,8 @@ const useStyles = makeStyles({
         width: "100%",
     },
     tableHead: {
-        fontWeight:'700'
-    }
+        fontWeight: "700",
+    },
 });
 
 export default function TableForm() {
@@ -85,8 +83,9 @@ export default function TableForm() {
     const [page, setPage] = useState(0);
     const [openAdd, setOpenAdd] = useState(false);
     const [openPut, setOpenPut] = useState(false);
+    const [upgradeCar, setUpgradeCar] = useState({});
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    
+
     const dispatch = useDispatch();
     const carsState = useSelector(selectCarsStoreState);
 
@@ -107,16 +106,15 @@ export default function TableForm() {
     };
 
     const handleDelete = (id) => {
-        dispatch(actionCreators.deleteCar(id));
+        dispatch(actionCreators.deleteCarSaga(id));
     };
-    const handleUpgrade = () => {   
-        setOpenPut(true)
+    const handleUpgrade = (row) => {
+        setUpgradeCar(row)
+        setOpenPut(true);
     };
-    
 
     const handleChangeModalAdd = () => {
         setOpenAdd((openAdd) => !openAdd);
-
     };
     const handleChangeModalPut = () => {
         setOpenPut((openAdd) => !openAdd);
@@ -141,12 +139,15 @@ export default function TableForm() {
                     add car
                 </StyledButton>
             </div>
-                    <CastModal openAdd={openAdd} handleChangeModalAdd={handleChangeModalAdd} />
+            <CastModal
+                openAdd={openAdd}
+                handleChangeModalAdd={handleChangeModalAdd}
+            />
 
             <Paper className={classes.root}>
                 <TableContainer className={classes.container}>
                     <Table stickyHeader aria-label="sticky table">
-                        <TableHead  >
+                        <TableHead>
                             <TableRow>
                                 {columns.map((column) => (
                                     <TableCell
@@ -172,59 +173,59 @@ export default function TableForm() {
                                             hover
                                             role="checkbox"
                                             tabIndex={-1}
-                                            key={row.id}
+                                            key={v1()}
                                         >
                                             <>
                                                 <TableCell
-                                                    key={row.id+1}
+                                                    key={v1()}
                                                     align="left"
                                                 >
                                                     {row.brand}
                                                 </TableCell>
                                                 <TableCell
-                                                    key={row.id+2}
+                                                    key={v1()}
                                                     align={"left"}
                                                 >
                                                     {row.carNumber}
                                                 </TableCell>
                                                 <TableCell
-                                                    key={row.id+3}
+                                                    key={v1()}
                                                     align={"left"}
                                                 >
                                                     {row.engineType}
                                                 </TableCell>
                                                 <TableCell
-                                                    key={row.id+4}
+                                                    key={v1()}
                                                     align={"right"}
                                                 >
                                                     {row.model}
-                                                </TableCell>                      
+                                                </TableCell>
 
                                                 <TableCell
-                                                    key={row.id+5}
+                                                    key={v1()}
                                                     align={"right"}
                                                 >
-                                                    <EditOutlinedIcon                                                
+                                                    <EditOutlinedIcon
                                                         onClick={() =>
-                                                            handleUpgrade()
+                                                            handleUpgrade(row)
                                                         }
                                                     />
-                                                    { openPut 
-                                                    ?  <CastModal
-                                                     openPut={openPut}
-                                                      handleChangeModalPut={handleChangeModalPut}
-                                                      car={row}
-                                                       />
-                                                    : void 0
-                                                    }
+                                                    {openPut ? (
+                                                        <CastModal
+                                                            openPut={openPut}
+                                                            handleChangeModalPut={
+                                                                handleChangeModalPut
+                                                            }
+                                                            car={upgradeCar}
+                                                        />
+                                                    ) : (
+                                                        void 0
+                                                    )}
                                                     &nbsp;&nbsp;&nbsp;
                                                     <DeleteOutlinedIcon
                                                         style={{
                                                             color: red[500],
                                                         }}
-                                                        // className={
-                                                        //     classes.iconos
-                                                        // }
                                                         onClick={() =>
                                                             handleDelete(row.id)
                                                         }

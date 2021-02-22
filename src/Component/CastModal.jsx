@@ -8,6 +8,8 @@ import { Button } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import clsx from "clsx";
 import { v1 } from "uuid";
+import checkEngine from "../helper/validate-engine";
+import checkCar from "../helper/validate-car";
 
 function getModalStyle() {
     const top = 28;
@@ -52,13 +54,20 @@ export default function CastModal({
 }) {
     const classes = useStyles();
 
+    console.log("car")
+    console.log(car)
+
     const [modalStyle] = useState(getModalStyle);
     const dispatch = useDispatch();
-    const [changeBrand, setChangeBrand] = useState(car ? car.brand : '');
+    const [changeBrand, setChangeBrand] = useState(car ? car.brand : "");
     const [changeModel, setChangeModel] = useState(car ? car.model : "");
-    const [changeCarNumber, setChangeCarNumber] = useState(car ? car.carNumber : "");
-    const [changeEngineType, setChangeEngineType] = useState(car ? car.engineType : "");
-    
+    const [changeCarNumber, setChangeCarNumber] = useState(
+        car ? car.carNumber : ""
+    );
+    const [changeEngineType, setChangeEngineType] = useState(
+        car ? car.engineType : ""
+    );
+
     const handleChangeBrand = (e) => {
         setChangeBrand(e);
     };
@@ -72,6 +81,17 @@ export default function CastModal({
     const handleChangeEngineType = (e) => {
         setChangeEngineType(e);
     };
+    const handleChangeEngineCheck = (e) => {
+        !checkEngine(e) &&
+            allertMessage(
+                "Please, input valid data: GAS, HYBRID, or FUEL",
+                "in Engine Type"
+            );
+    };
+
+    const allertMessage = (data, input = "") => {
+        alert(`${data}  ${input}`);
+    };
 
     const handleSubmit = () => {
         const newCar = {
@@ -81,10 +101,14 @@ export default function CastModal({
             id: !car ? v1() : car.id,
             model: changeModel,
         };
+        // console.log(newCar)
+
+        if (!checkCar(newCar) && !checkEngine(newCar.engineType))
+            return allertMessage("Please fill in all fields");
 
         openPut
             ? dispatch(actionCreators.updateCar(newCar))
-            : dispatch(actionCreators.createCar(newCar));
+            : dispatch(actionCreators.createCarSaga(newCar));
 
         setChangeBrand("");
         setChangeModel("");
@@ -108,7 +132,7 @@ export default function CastModal({
                 )}
                 <div style={{ marginTop: "15px" }}>
                     {openPut ? (
-                        <Button >
+                        <Button>
                             <CloseIcon onClick={handleChangeModalPut} />
                         </Button>
                     ) : (
@@ -162,6 +186,9 @@ export default function CastModal({
                     onChange={(e) =>
                         handleChangeEngineType(e.currentTarget.value)
                     }
+                    onBlur={(e) =>
+                        handleChangeEngineCheck(e.currentTarget.value)
+                    }
                     className={clsx(classes.margin, classes.textField)}
                 />
                 <br />
@@ -210,14 +237,14 @@ export default function CastModal({
     return (
         <div>
             <Modal
-                open={ openAdd ? openAdd : false }
+                open={openAdd ? openAdd : false}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
             >
                 {body}
             </Modal>
             <Modal
-                open={ openPut ? openPut : false }
+                open={openPut ? openPut : false}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
             >

@@ -16,15 +16,15 @@ export const getCarsApi = () => {
 }
 
 export const createCarApi = (car) => {
-    return instance.post(`car`, car)
+    return instance.post(`api/car`, car)
         .then(response => response.data)
 }
 
 export const deleteCarApi = (id) => {
-    return instance.delete(`/car/${id}`)
+    return instance.delete(`api/car/${id}`)
         .then(response => response.data)
 }
 
 export const updateCarApi = (car) => {
-    return instance.put(`/car/${car.id}`, car)
+    return instance.put(`api/car/${car.id}`, car)
 }
